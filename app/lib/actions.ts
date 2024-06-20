@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { FormDataZod } from './definitions';
 
 
 export type State = {
@@ -22,21 +23,21 @@ export type State = {
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
-  ) {
+) {
     try {
-      await signIn('credentials', formData);
+        await signIn('credentials', formData);
     } catch (error) {
-      if (error instanceof AuthError) {
-        switch (error.type) {
-          case 'CredentialsSignin':
-            return 'Invalid credentials.';
-          default:
-            return 'Something went wrong.';
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
         }
-      }
-      throw error;
+        throw error;
     }
-  }
+}
 
 
 const FormSchema = z.object({
@@ -54,20 +55,17 @@ const FormSchema = z.object({
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 
-export async function createInvoice(prevState: State, formData: FormData) {
+export async function createInvoice(newInvoice: FormDataZod) {
 
-    const validationFields = CreateInvoice.safeParse(
-        {
-            customerId: formData.get('customerId'),
-            amount: formData.get('amount'),
-            status: formData.get('status'),
-        }
-    )
+    const validationFields = CreateInvoice.safeParse(newInvoice);
 
     if (!validationFields.success) {
+        let errorMessage = "";
+        validationFields.error.issues.forEach((issue) => {
+            errorMessage += `${issue.path[0]}: ${issue.message}`;
+        })
         return {
-            errors: validationFields.error.flatten().fieldErrors,
-            message: "Missing Fields. Failed to create Invoice."
+            error: errorMessage
         }
     }
 
@@ -94,20 +92,17 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
-export async function updateInvoice(id: string, prevState: State, formData: FormData) {
+export async function updateInvoice(id: string, updatedInvoice: FormDataZod) {
 
-    const validationFields = UpdateInvoice.safeParse(
-        {
-            customerId: formData.get('customerId'),
-            amount: formData.get('amount'),
-            status: formData.get('status'),
-        }
-    );
+    const validationFields = UpdateInvoice.safeParse(updatedInvoice);
 
     if (!validationFields.success) {
+        let errorMessage = "";
+        validationFields.error.issues.forEach((issue) => {
+            errorMessage += `${issue.path[0]}: ${issue.message}`;
+        })
         return {
-            errors: validationFields.error.flatten().fieldErrors,
-            message: "Missing Fields. Failed to update Invoice."
+            error: errorMessage
         }
     }
 

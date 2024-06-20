@@ -1,6 +1,9 @@
 // This file contains type definitions for your data.
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
+
+import { z } from "zod";
+
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 export type User = {
   id: string;
@@ -86,3 +89,14 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+
+export const FormSchema = z.object({
+  customerId: z.string({
+    invalid_type_error: 'Please select a customer.'
+  }),
+  amount: z.coerce.number().gt(0, { message: "Please enter an amount greater than $0" }),
+  status: z.enum(['paid', 'pending'], { invalid_type_error: "Please select an invoice status" }),
+});
+
+export type FormDataZod = z.infer<typeof FormSchema>

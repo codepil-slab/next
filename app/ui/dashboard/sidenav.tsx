@@ -29,7 +29,7 @@ export default function SideNav() {
             <div className="hidden md:block">Sign Out</div>
           </button>
         </form>
-      </div>  
+      </div>
     </div>
   );
 }

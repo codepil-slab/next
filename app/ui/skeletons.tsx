@@ -102,6 +102,26 @@ export default function DashboardSkeleton() {
   );
 }
 
+export function InvoiceMainPageSkeleton() {
+  return (
+    <>
+      <div
+        className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-100`}
+      />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <RevenueChartSkeleton />
+        <LatestInvoicesSkeleton />
+      </div>
+    </>
+  );
+}
+
 export function TableRowSkeleton() {
   return (
     <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
@@ -215,4 +235,46 @@ export function InvoicesTableSkeleton() {
       </div>
     </div>
   );
+}
+
+
+export function FormSkeleton() {
+  return (
+    <div className="space-y-4 p-4 bg-gray-100 rounded-xl shadow-sm">
+
+      {/* Breadcrumbs Skeleton */}
+      <div className="flex items-center space-x-2">
+        <div className="h-5 w-16 bg-gray-200 rounded-md" />
+        <div className="h-5 w-4 bg-gray-200 rounded-md" />
+        <div className="h-5 w-24 bg-gray-200 rounded-md" />
+      </div>
+
+      {/* Dropdown Skeleton */}
+      <div className="flex flex-col space-y-2">
+        <div className="h-5 w-24 bg-gray-200 rounded-md" />
+        <div className="h-10 bg-gray-200 rounded-md" />
+      </div>
+
+      {/* Number Input Skeleton */}
+      <div className="flex flex-col space-y-2">
+        <div className="h-5 w-24 bg-gray-200 rounded-md" />
+        <div className="h-10 bg-gray-200 rounded-md" />
+      </div>
+
+      {/* Radio Buttons Skeleton */}
+      <div className="flex flex-col space-y-2">
+        <div className="h-5 w-24 bg-gray-200 rounded-md" />
+        <div className="flex space-x-4">
+          <div className="h-5 w-5 bg-gray-200 rounded-full" />
+          <div className="h-5 w-5 bg-gray-200 rounded-full" />
+        </div>
+      </div>
+
+      {/* Buttons Skeleton */}
+      <div className="flex justify-end space-x-2 mt-4">
+        <div className="h-10 w-24 bg-gray-200 rounded-md" />
+        <div className="h-10 w-24 bg-gray-200 rounded-md" />
+      </div>
+    </div>
+  )
 }
