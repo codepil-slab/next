@@ -86,6 +86,7 @@ export async function createInvoice(newInvoice: FormDataZod) {
         }
     }
     revalidatePath('/dashboard/invoices');
+    revalidatePath('/dashboard/dashboard');
     redirect('/dashboard/invoices');
 
 }
@@ -123,6 +124,7 @@ export async function updateInvoice(id: string, updatedInvoice: FormDataZod) {
         }
     }
     revalidatePath('/dashboard/invoices');
+    revalidatePath('/dashboard/dashboard');
     redirect('/dashboard/invoices');
 }
 
@@ -136,6 +138,7 @@ export async function deleteInvoice(id: string) {
         `;
 
         revalidatePath('/dashboard/invoices');
+        revalidatePath('/dashboard/dashboard');
         return {
             message: "Invoice deleted successfully."
         }
