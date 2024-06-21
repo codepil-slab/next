@@ -1,27 +1,45 @@
+'use client';
+
 import Image from 'next/image';
 import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
 import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
-import { fetchFilteredInvoices } from '@/app/lib/data';
+import { InvoicesTable } from '@/app/lib/definitions';
+import { experimental_useOptimistic as useOptimistic } from 'react';
+import { Button } from '../button';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import { deleteInvoice } from '@/app/lib/actions';
+import toast from 'react-hot-toast';
 
-export default async function InvoicesTable({
-  query,
-  currentPage,
+export default function InvoicesTableComponent({
+  invoices,
 }: {
-  query: string;
-  currentPage: number;
+  invoices: InvoicesTable[];
 }) {
 
-  
+  const [optimisticInvoices, removeInvoice] = useOptimistic(
+    invoices,
+    (invoices, id) => invoices.filter((invoice) => invoice.id != id),
+  )
 
-  const invoices = await fetchFilteredInvoices(query, currentPage);
+  const deleteFormAction = async (id: string) => {
+    removeInvoice(id);
+    const response = await deleteInvoice(id);
+
+    if (response.errors) {
+      toast.error(response.errors);
+      return;
+    }
+    toast.success("Invoice deleted successfully");
+    return;
+  }
 
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            {invoices?.map((invoice) => (
+            {optimisticInvoices?.map((invoice) => (
               <div
                 key={invoice.id}
                 className="mb-2 w-full rounded-md bg-white p-4"
@@ -51,7 +69,12 @@ export default async function InvoicesTable({
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateInvoice id={invoice.id} />
-                    <DeleteInvoice id={invoice.id} />
+                    <form action={deleteFormAction.bind(null, invoice.id)}>
+                      <Button>
+                        <span className="sr-only">Delete</span>
+                        <TrashIcon className="w-4" />
+                      </Button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -81,7 +104,7 @@ export default async function InvoicesTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {invoices?.map((invoice) => (
+              {optimisticInvoices?.map((invoice) => (
                 <tr
                   key={invoice.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -113,7 +136,12 @@ export default async function InvoicesTable({
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateInvoice id={invoice.id} />
-                      <DeleteInvoice id={invoice.id} />
+                      <form action={deleteFormAction.bind(null, invoice.id)}>
+                        <Button>
+                          <span className="sr-only">Delete</span>
+                          <TrashIcon className="w-4" />
+                        </Button>
+                      </form>
                     </div>
                   </td>
                 </tr>

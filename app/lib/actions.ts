@@ -144,7 +144,7 @@ export async function deleteInvoice(id: string) {
         }
     } catch (error) {
         return {
-            message: "Database Error: Failed to delete invoice."
+            errors: "Database Error: Failed to delete invoice."
         }
     }
 }
