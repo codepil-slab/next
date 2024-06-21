@@ -200,7 +200,7 @@ export const fetchFilteredCustomers = cache(async (query: string) => {
   // noStore();
 
   try {
-    const data = await sql<CustomersTableType>`
+    const data = await sql<CustomersTableType>` 
 		SELECT
 		  customers.id,
 		  customers.name,
@@ -223,6 +223,8 @@ export const fetchFilteredCustomers = cache(async (query: string) => {
       total_pending: formatCurrency(customer.total_pending),
       total_paid: formatCurrency(customer.total_paid),
     }));
+
+
 
     return customers;
   } catch (err) {

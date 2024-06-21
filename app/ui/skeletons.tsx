@@ -278,3 +278,88 @@ export function FormSkeleton() {
     </div>
   )
 }
+
+export function CustomersTableSkeleton() {
+  return (
+    <div className="mt-6 flow-root">
+      <div className="inline-block min-w-full align-middle">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          <div className="md:hidden">
+            <CustomersMobileSkeleton />
+            <CustomersMobileSkeleton />
+            <CustomersMobileSkeleton />
+            <CustomersMobileSkeleton />
+            <CustomersMobileSkeleton />
+            <CustomersMobileSkeleton />
+          </div>
+          <table className="hidden min-w-full rounded-md text-gray-900 md:table">
+            <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
+              <tr>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Name
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Email
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Total Invoices
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Total Pending
+                </th>
+                <th scope="col" className="px-4 py-5 font-medium">
+                  Total Paid
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 text-gray-900">
+              <CustomerRowSkeleton />
+              <CustomerRowSkeleton />
+              <CustomerRowSkeleton />
+              <CustomerRowSkeleton />
+              <CustomerRowSkeleton />
+              <CustomerRowSkeleton />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomerRowSkeleton() {
+  return (
+    <tr className="animate-pulse">
+      <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm sm:pl-6">
+        <div className="flex items-center gap-3">
+          <div className="h-7 w-7 rounded-full bg-gray-200"></div>
+          <div className="h-4 w-24 bg-gray-200"></div>
+        </div>
+      </td>
+      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+        <div className="h-4 w-32 bg-gray-200"></div>
+      </td>
+      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+        <div className="h-4 w-16 bg-gray-200"></div>
+      </td>
+      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+        <div className="h-4 w-16 bg-gray-200"></div>
+      </td>
+      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+        <div className="h-4 w-16 bg-gray-200"></div>
+      </td>
+    </tr>
+  );
+}
+
+function CustomersMobileSkeleton() {
+  return (
+    <div className="animate-pulse bg-white p-4 mb-4 rounded-lg">
+      <div className="h-4 w-32 bg-gray-200 mb-2"></div>
+      <div className="h-4 w-48 bg-gray-200 mb-2"></div>
+      <div className="h-4 w-24 bg-gray-200 mb-2"></div>
+      <div className="h-4 w-24 bg-gray-200 mb-2"></div>
+      <div className="h-4 w-24 bg-gray-200"></div>
+    </div>
+  );
+}

@@ -1,22 +1,25 @@
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
-import {
-  CustomersTableType,
-  FormattedCustomersTable,
-} from '@/app/lib/definitions';
+import { fetchFilteredCustomers } from '@/app/lib/data';
+import { CustomersTableType } from '@/app/lib/definitions';
 
 export default async function CustomersTable({
   customers,
 }: {
-  customers: FormattedCustomersTable[];
+  customers: {
+    total_pending: string;
+    total_paid: string;
+    id: string;
+    name: string;
+    email: string;
+    image_url: string;
+    total_invoices: number;
+  }[];
 }) {
+
   return (
     <div className="w-full">
-      <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
-        Customers
-      </h1>
-      <Search placeholder="Search customers..." />
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
